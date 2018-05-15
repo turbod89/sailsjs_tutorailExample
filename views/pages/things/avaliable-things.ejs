@@ -75,20 +75,34 @@
       action="uploadThing"
       :syncing.sync="syncing"
       :cloud-error.sync="cloudError"
-      :handling-parsing="handleParseUploadThingForm"
-      @submitted="submitUploadThingForm()"
+      :handle-parsing="handleParseUploadThingForm"
+      @submitted="submittedUploadThingForm"
+
     >
       <div class="modal-body">
-
-        <div class = "row">
-          <p>Add a photo:</p>
-        </div>
         <div class = "row">
           <div class ="col-12">
             <div class="form-group">
-              <label for="exampleFormControlFile1">Example file input</label>
-              <input type="file" class="form-control-file" id="exampleFormControlFile1">
+              <label for="inputImage">Add a photo:</label>
+              <input
+                type="file"
+                name="photo"
+                :disabled="syncing"
+                class="form-control-file file-input"
+                @change="changeFileInput($event.target)"
+                id="inputImage"
+              >
             </div>
+          </div>
+        </div>
+        <div class = "row">
+          <div class = "col-12">
+            <img
+              v-if="uploadThingImagePreview"
+              :src="uploadThingImagePreview"
+              class="rounded"
+              style='max-width: 100%; padding: 1em;'
+            />
           </div>
           <p><strong>Tip:</strong> Make sure the item is front and center in the photo, so people know exactly what you are offering to share.</p>
         </div>
@@ -96,7 +110,15 @@
           <div class="col-12">
             <div class="form-group">
               <label for="uploadThingLabel">Little description of the thing.</label>
-              <input type="text" class="form-control" id="uploadThingLabel" name="label" aria-describedby="labelHelp" placeholder="Red Mountain bike">
+              <input
+                type="text"
+                class="form-control"
+                id="uploadThingLabel"
+                name="label"
+                :value.sync="uploadFormData.label"
+                aria-describedby="labelHelp"
+                placeholder="Red Mountain bike"
+              >
               <small id="labelHelp" class="form-text text-muted"></small>
             </div>
           </div>

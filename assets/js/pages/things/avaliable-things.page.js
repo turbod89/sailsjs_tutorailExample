@@ -7,9 +7,11 @@ parasails.registerPage('avaliable-things', {
     confirmDeleteThingModalOpen: false,
     thingDeleteThingModal: null,
     uploadThingModalOpen: false,
+    uploadThingImagePreview: null,
 
     uploadFormData: {
       label: '',
+      photo: undefined,
     },
 
     // Syncing / loading state
@@ -96,14 +98,48 @@ parasails.registerPage('avaliable-things', {
       this.uploadThingModalOpen = false;
       this.uploadFormData = {
         label: '',
+        photo: undefined,
       };
       this.formErrors = {};
       this.cloudError = {};
     },
 
-    submittedUploadThingForm: function () {
+    submittedUploadThingForm: function (result) {
+      console.log(result)
+      this.things.push({
+        label: this.uploadFormData.label,
+        id: result.id,
+        owner: {
+          id: this.me.id,
+          fullName: this.me.fullName,
+          
+        },
+      });
+      this.$forceUpdate()
 
       this._clearUploadThingModal();
+
     },
+
+    changeFileInput: function (target) {
+      const files = target.files;
+      const selectedFile = files[0];
+
+      if (!selectedFile) {
+        this.uploadFormData.photo = undefined;
+        return;
+      }
+
+      const reader = new FileReader();
+      reader.onload = event => this.uploadThingImagePreview = event.target.result;
+      reader.readAsDataURL(selectedFile);
+
+
+      this.uploadFormData.photo = selectedFile;
+
+
+    }
+
+
   }
 });

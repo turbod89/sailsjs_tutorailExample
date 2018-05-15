@@ -71,6 +71,7 @@ module.exports.bootstrap = async function(done) {
     users[2].id,
   );
 
+  /*
   const things = await Thing.createEach([
     {owner: users[Math.floor(users.length * Math.random())].id, label: 'My Camera'},
     {owner: users[Math.floor(users.length * Math.random())].id, label: 'Old bedside table'},
@@ -83,6 +84,7 @@ module.exports.bootstrap = async function(done) {
     {owner: users[Math.floor(users.length * Math.random())].id, label: 'My red bicicle'},
     {owner: users[Math.floor(users.length * Math.random())].id, label: 'Sofa'},
   ]);
+  */
 
   // Save new bootstrap version
   await sails.helpers.fs.writeJson.with({
