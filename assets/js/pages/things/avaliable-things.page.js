@@ -45,14 +45,10 @@ parasails.registerPage('avaliable-things', {
     //  Delete modal
     //
 
-
-    clickThing: async function (thingId) {
-      console.log('You clicked a thing with id '+ thingId);
-    },
-
     clickDeleteThing: async function (thingId) {
       this.confirmDeleteThingModalOpen = true;
       this.thingDeleteThingModal = this.things.find(thing => thing.id === thingId);
+      console.log(this.thingDeleteThingModal)
     },
     
     clickConfirmDeleteThingModal: async function () {
@@ -109,6 +105,7 @@ parasails.registerPage('avaliable-things', {
       this.things.push({
         label: this.uploadFormData.label,
         id: result.id,
+        imageSrc: result.imageSrc,
         owner: {
           id: this.me.id,
           fullName: this.me.fullName,
@@ -138,7 +135,11 @@ parasails.registerPage('avaliable-things', {
       this.uploadFormData.photo = selectedFile;
 
 
-    }
+    },
+
+    changeUploadThingLabel: function (target) {
+        this.uploadFormData.label = target.value;
+    },
 
 
   }

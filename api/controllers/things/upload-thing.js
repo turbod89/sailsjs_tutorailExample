@@ -27,6 +27,7 @@ module.exports = {
     success: {
       outputType: {
         id: 'number',
+        imageSrc: 'string',
       },
       outputDescription: 'Information abount newly created record'
 
@@ -51,7 +52,9 @@ module.exports = {
     }).fetch();
 
     return exits.success({
-      id: newThing.id
+      id: newThing.id,
+      imageSrc: url.resolve(sails.config.custom.baseUrl, '/api/v1/things/' + newThing.id),
+
     });
 
   }

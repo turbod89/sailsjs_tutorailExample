@@ -54,6 +54,7 @@ module.exports.routes = {
   'DELETE /api/v1/things/destroy-one-thing':             { action: 'things/destroy-one-thing' },
   'POST /api/v1/things/upload-one-thing':                { action: 'things/upload-one-thing' },
   'POST /api/v1/things/upload-thing':                 { action: 'things/upload-thing' },
+  'GET /api/v1/things/:id':                 { action: 'things/download-photo' },
 
 
   //  ╦ ╦╔═╗╔╗ ╦ ╦╔═╗╔═╗╦╔═╔═╗

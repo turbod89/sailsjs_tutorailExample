@@ -17,9 +17,9 @@
         style="margin-bottom: 16px;"
       >
         <div
-          @click="clickThing(thing.id)"
           class="card"
         >
+          <img class="card-img-top" :src="thing.imageSrc" :alt="thing.label">
           <div class="card-body">
             <h5 class="card-title">{{ thing.label }}</h5>
             
@@ -118,6 +118,7 @@
                 :value.sync="uploadFormData.label"
                 aria-describedby="labelHelp"
                 placeholder="Red Mountain bike"
+                @change="changeUploadThingLabel($event.target)"
               >
               <small id="labelHelp" class="form-text text-muted"></small>
             </div>
