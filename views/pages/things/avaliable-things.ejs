@@ -10,33 +10,57 @@
     </div>
 
   
-    <div class = "row">
+    <div
+      class = "card-columns"
+      style="margin-bottom: 16px;"
+    >
       <div
-        class = "col-12 col-sm-6 col-md-4 col-lg-3 col-xl-3"
+        class="card"
         v-for="thing in things"
-        style="margin-bottom: 16px;"
+
       >
-        <div
-          class="card"
-        >
-          <img class="card-img-top" :src="thing.imageSrc" :alt="thing.label">
-          <div class="card-body">
-            <h5 class="card-title">{{ thing.label }}</h5>
-            
-            <p
-              v-if="thing.owner.id !== me.id"
-              class="card-text"
-            >{{ thing.owner.fullName }}</p>
-            <p v-if="thing.owner.id === me.id" class="card-text">
-              Mine
-              <a v-if="thing.owner.id === me.id" href="#" @click="clickDeleteThing(thing.id)" class="card-link">
-                Delete
-              </a>
-            </p>
+        
+        <div class="card-header">
+          <div class="row align-middle">
+
+            <div v-if="thing.owner.id !== me.id" class="col-9 align-middle flex">{{ thing.owner.fullName }}</div>
+            <div v-if="thing.owner.id === me.id" class="col-9 align-middle flex">Mine</div>
+
+            <div class="dropdown col-3">
+              <button
+                class="btn btn-link"
+                type="button"
+                data-toggle="dropdown"
+                aria-haspopup="true"
+                aria-expanded="false"
+              >
+                <i class="fa fa-ellipsis-v text-secondary"></i>
+              </button>
+              <div class="dropdown-menu dropdown-menu-right" >
+                <% // if i'm the owner %>
+                <button v-if="thing.owner.id === me.id" class="dropdown-item" @click="clickDeleteThing(thing.id)" type="button">Delete</button>
+                <% // if i'm the owner and object is borrowed %>
+                <button v-if="thing.owner.id === me.id && thing.borrowedBy !== null" class="dropdown-item" @click="" type="button">Mark as returned</button>
+                <button v-if="thing.owner.id === me.id && thing.borrowedBy !== null" class="dropdown-item" @click="" type="button">Contact {{thing.borrowedBy.fullName}}</button>
+                <% // if i am not the owner and i am not borrowing %>
+                <button v-if="thing.owner.id !== me.id && thing.borrowedBy.id !== me.id" class="dropdown-item" @click="clickBorrowThing(thing.id)" type="button">Borrow</button>
+                <% // if i am not the owner and i am borrowing %>
+                <button v-if="thing.owner.id !== me.id && thing.borrowedBy.id === me.id" class="dropdown-item" @click="clickBorrowThing(thing.id)"
+                  type="button">Contact {{thing.owner.fullName}}</button>
+
+
+              </div>
+            </div>
           </div>
+
         </div>
-  
+
+        <img class="card-img-top" :src="thing.imageSrc" :alt="thing.label">
+        <div class="card-body">
+          <h5 class="card-title">{{ thing.label }}</h5>
+        </div>
       </div>
+  
     </div>
 
   </div>
@@ -132,6 +156,41 @@
     </ajax-form>
 
   </modal>
+
+<% /* Borrow Thing Modal */%>
+
+  <modal v-if="borrowThingModalOpen" v-cloak @close="closeBorrowThingModal()" key="borrowThing">
+    <div class="modal-header">
+      <h5 class="modal-title">Borrow <strong>{{thingBorrowThingModal.label}}</strong></h5>
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <ajax-form action="borrowThing" :syncing.sync="syncing" :cloud-error.sync="cloudError" :handle-parsing="handleParseBorrowThingForm"
+      @submitted="">
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-12">
+            <img :src="thingBorrowThingModal.imageSrc" class="rounded img-fluid" style='max-width: 100%; padding: 1em;'
+            />
+          </div>
+          
+        </div>
+        <div class="row">
+          <div class="col-12">
+            <h5>{{thingBorrowThingModal.label}}</h5>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline-info" data-dismiss="modal">Cancel</button>
+        <button type="submit" class="btn btn-primary">Share item</button>
+      </div>
+    </ajax-form>
+
+  </modal>
+
+
 
 
 </div>

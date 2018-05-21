@@ -8,11 +8,17 @@ parasails.registerPage('avaliable-things', {
     thingDeleteThingModal: null,
     uploadThingModalOpen: false,
     uploadThingImagePreview: null,
-
     uploadFormData: {
       label: '',
       photo: undefined,
     },
+
+    borrowThingModalOpen: false,
+    thingBorrowThingModal: null,
+    borrowFormData: {
+      id: null,
+    },
+
 
     // Syncing / loading state
     syncing: false,
@@ -48,7 +54,6 @@ parasails.registerPage('avaliable-things', {
     clickDeleteThing: async function (thingId) {
       this.confirmDeleteThingModalOpen = true;
       this.thingDeleteThingModal = this.things.find(thing => thing.id === thingId);
-      console.log(this.thingDeleteThingModal)
     },
     
     clickConfirmDeleteThingModal: async function () {
@@ -140,6 +145,41 @@ parasails.registerPage('avaliable-things', {
     changeUploadThingLabel: function (target) {
         this.uploadFormData.label = target.value;
     },
+
+
+    //
+    // Borrow thing modal
+    //
+
+    clickBorrowThing: async function (thingId) {
+      this.borrowThingModalOpen = true;
+      this.thingBorrowThingModal = this.things.find(thing => thing.id === thingId);
+    },
+
+    clickConfirmBorrowThingModal: async function () {
+      
+    },
+
+    closeBorrowThingModal: async function () {
+      this.borrowThingModalOpen = false;
+      this.thingBorrowThingModal = null;
+    },
+
+    handleParseBorrowThingForm: function () {
+      // clear out any pre-existing parsing errors
+      this.formErrors = {};
+
+      const argins = this.uploadFormData;
+
+
+      if (Object.keys(this.formErrors).length > 0) {
+        return;
+      }
+
+      return argins;
+    },
+
+
 
 
   }

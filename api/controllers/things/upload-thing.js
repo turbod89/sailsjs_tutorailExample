@@ -53,7 +53,8 @@ module.exports = {
 
     return exits.success({
       id: newThing.id,
-      imageSrc: url.resolve(sails.config.custom.baseUrl, '/api/v1/things/' + newThing.id),
+      //imageSrc: url.resolve(sails.config.custom.baseUrl, '/api/v1/things/' + newThing.id),
+      imageSrc: url.resolve('', '/api/v1/things/' + newThing.id),
 
     });
 

@@ -32,11 +32,13 @@ module.exports = {
       ]
     })
     .populate('owner')
+    .populate('borrowedBy')
     //.map(thing => thing.owner = thing.owner.fullName);
     ;
 
     _.each( things, thing => {
-      thing.imageSrc = url.resolve(sails.config.custom.baseUrl, '/api/v1/things/' + thing.id);
+      //thing.imageSrc = url.resolve(sails.config.custom.baseUrl, '/api/v1/things/' + thing.id);
+      thing.imageSrc = url.resolve('','/api/v1/things/' + thing.id);
 
       delete thing.imageUploadFd;
       delete thing.imageUploadMime;
